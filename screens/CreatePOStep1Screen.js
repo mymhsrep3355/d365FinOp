@@ -1,160 +1,493 @@
+// import React, { useState } from 'react';
+// import {
+//     View,
+//     Text,
+//     StyleSheet,
+//     Pressable,
+//     Dimensions,
+//     KeyboardAvoidingView,
+//     Platform,
+//     ScrollView,
+// } from 'react-native';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+// import moment from 'moment';
+// import BackButton from '../components/BackButton';
+// import FormField from '../components/FormField';
+// import colors from '../contants/colors';
+// import { useNavigation } from '@react-navigation/native';
+
+// const { width } = Dimensions.get('window');
+
+// export default function CreatePOStep1Screen() {
+//     const navigation = useNavigation();
+
+//     const [orderVendorAccountNumber, setOrderVendorAccountNumber] = useState('');
+//     const [invoiceVendorAccountNumber, setInvoiceVendorAccountNumber] = useState('');
+//     const [deliveryModeId, setDeliveryModeId] = useState('');
+//     const [purchaseOrderName, setPurchaseOrderName] = useState('');
+//     const [requestedDeliveryDate, setRequestedDeliveryDate] = useState('');
+//     const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
+//     const [deliveryAddressCountyId, setDeliveryAddressCountyId] = useState('');
+//     const [deliveryAddressZipCode, setDeliveryAddressZipCode] = useState('');
+//     const [deliveryAddressLocationId, setDeliveryAddressLocationId] = useState('');
+//     const [deliveryTermsId, setDeliveryTermsId] = useState('');
+//     const [currencyCode, setCurrencyCode] = useState('');
+//     const [invoiceType, setInvoiceType] = useState('');
+//     const [deliveryAddressStreet, setDeliveryAddressStreet] = useState('');
+//     const [vendorPaymentMethodName, setVendorPaymentMethodName] = useState('');
+//     const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
+//     const [paymentTermsName, setPaymentTermsName] = useState('');
+//     const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
+
+//     const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
+
+//     const handleNext = () => {
+//         navigation.navigate('PO1', {
+//             orderVendorAccountNumber,
+//             invoiceVendorAccountNumber,
+//             deliveryModeId,
+//             purchaseOrderName,
+//             requestedDeliveryDate,
+//             deliveryAddressCity,
+//             deliveryAddressCountyId,
+//             deliveryAddressZipCode,
+//             deliveryAddressLocationId,
+//             deliveryTermsId,
+//             currencyCode,
+//             invoiceType,
+//             deliveryAddressStreet,
+//             vendorPaymentMethodName,
+//             defaultReceivingSiteId,
+//             paymentTermsName,
+//             formattedDeliveryAddress,
+//         });
+//     };
+
+//     return (
+//         <KeyboardAvoidingView
+//             style={styles.container}
+//             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+//         >
+//             <ScrollView contentContainerStyle={styles.inner}>
+//                 <BackButton />
+
+//                 <Text style={styles.heading}>Create Purchase Order</Text>
+
+//                 <FormField
+//                     label="Order Vendor Account Number"
+//                     value={orderVendorAccountNumber}
+//                     onChangeText={setOrderVendorAccountNumber}
+//                     placeholder="e.g. US-102"
+//                 />
+
+//                 <FormField
+//                     label="Invoice Vendor Account Number"
+//                     value={invoiceVendorAccountNumber}
+//                     onChangeText={setInvoiceVendorAccountNumber}
+//                     placeholder="e.g. US-102"
+//                 />
+
+//                 <FormField
+//                     label="Delivery Mode ID"
+//                     value={deliveryModeId}
+//                     onChangeText={setDeliveryModeId}
+//                     placeholder="e.g. 10"
+//                 />
+
+//                 <FormField
+//                     label="Purchase Order Name"
+//                     value={purchaseOrderName}
+//                     onChangeText={setPurchaseOrderName}
+//                     placeholder="e.g. Tailspin Parts"
+//                 />
+
+//                 <Pressable onPress={() => setShowRequestedDeliveryDatePicker(true)}>
+//                     <View style={styles.dateInput}>
+//                         <Text style={{ color: requestedDeliveryDate ? colors.text : '#888' }}>
+//                             {requestedDeliveryDate
+//                                 ? moment(requestedDeliveryDate).format('YYYY-MM-DD')
+//                                 : 'Select Requested Delivery Date'}
+//                         </Text>
+//                     </View>
+//                 </Pressable>
+//                 {showRequestedDeliveryDatePicker && (
+//                     <DateTimePicker
+//                         value={requestedDeliveryDate ? new Date(requestedDeliveryDate) : new Date()}
+//                         mode="date"
+//                         display={Platform.OS === 'ios' ? 'inline' : 'calendar'}
+//                         onChange={(event, selectedDate) => {
+//                             setShowRequestedDeliveryDatePicker(false);
+//                             if (selectedDate) {
+//                                 setRequestedDeliveryDate(moment(selectedDate).format('YYYY-MM-DD'));
+//                             }
+//                         }}
+//                     />
+//                 )}
+
+//                 <FormField
+//                     label="Delivery Address City"
+//                     value={deliveryAddressCity}
+//                     onChangeText={setDeliveryAddressCity}
+//                     placeholder="e.g. Galvin"
+//                 />
+
+//                 <FormField
+//                     label="County ID"
+//                     value={deliveryAddressCountyId}
+//                     onChangeText={setDeliveryAddressCountyId}
+//                     placeholder="e.g. ASOTIN"
+//                 />
+
+//                 <FormField
+//                     label="Zip Code"
+//                     value={deliveryAddressZipCode}
+//                     onChangeText={setDeliveryAddressZipCode}
+//                     placeholder="e.g. 98544"
+//                 />
+
+//                 <FormField
+//                     label="Location ID"
+//                     value={deliveryAddressLocationId}
+//                     onChangeText={setDeliveryAddressLocationId}
+//                     placeholder="e.g. 000001098"
+//                 />
+
+//                 <FormField
+//                     label="Delivery Terms ID"
+//                     value={deliveryTermsId}
+//                     onChangeText={setDeliveryTermsId}
+//                     placeholder="e.g. FOB / CL"
+//                 />
+
+//                 <FormField
+//                     label="Currency Code"
+//                     value={currencyCode}
+//                     onChangeText={setCurrencyCode}
+//                     placeholder="e.g. USD"
+//                 />
+
+//                 <FormField
+//                     label="Invoice Type"
+//                     value={invoiceType}
+//                     onChangeText={setInvoiceType}
+//                     placeholder="e.g. Invoice"
+//                 />
+
+//                 <FormField
+//                     label="Delivery Street"
+//                     value={deliveryAddressStreet}
+//                     onChangeText={setDeliveryAddressStreet}
+//                     placeholder="e.g. 213 South Street, Gate 1"
+//                 />
+
+//                 <FormField
+//                     label="Payment Method"
+//                     value={vendorPaymentMethodName}
+//                     onChangeText={setVendorPaymentMethodName}
+//                     placeholder="e.g. CHECK"
+//                 />
+
+//                 <FormField
+//                     label="Receiving Site ID"
+//                     value={defaultReceivingSiteId}
+//                     onChangeText={setDefaultReceivingSiteId}
+//                     placeholder="e.g. 1"
+//                 />
+
+//                 <FormField
+//                     label="Payment Terms"
+//                     value={paymentTermsName}
+//                     onChangeText={setPaymentTermsName}
+//                     placeholder="e.g. Net30"
+//                 />
+
+//                 <FormField
+//                     label="Formatted Delivery Address"
+//                     value={formattedDeliveryAddress}
+//                     onChangeText={setFormattedDeliveryAddress}
+//                     placeholder="Formatted delivery address"
+//                     multiline
+//                 />
+
+//                 <Pressable style={styles.nextButton} onPress={handleNext}>
+//                     <Text style={styles.nextButtonText}>Next</Text>
+//                 </Pressable>
+//             </ScrollView>
+//         </KeyboardAvoidingView>
+//     );
+// }
+
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         backgroundColor: colors.primary,
+//     },
+//     inner: {
+//         paddingTop: 100,
+//         paddingHorizontal: 24,
+//         paddingBottom: 40,
+//     },
+//     heading: {
+//         fontSize: 22,
+//         fontFamily: 'Poppins_600SemiBold',
+//         marginBottom: 30,
+//         color: colors.text,
+//     },
+//     dateInput: {
+//         borderWidth: 1,
+//         borderColor: '#ccc',
+//         borderRadius: 12,
+//         padding: 14,
+//         marginBottom: 20,
+//         backgroundColor: '#fff',
+//         justifyContent: 'center',
+//         height: 50,
+//         shadowColor: '#000',
+//         shadowOpacity: 0.05,
+//         shadowRadius: 4,
+//         shadowOffset: { width: 0, height: 2 },
+//     },
+//     nextButton: {
+//         marginTop: 10,
+//         backgroundColor: '#2d00a9',
+//         paddingVertical: 16,
+//         borderRadius: 12,
+//         alignItems: 'center',
+//     },
+//     nextButtonText: {
+//         color: '#fff',
+//         fontSize: 16,
+//         fontFamily: 'Poppins_600SemiBold',
+//     },
+// });
+
+
+
 import React, { useState } from 'react';
 import {
     View,
     Text,
-    TextInput,
     StyleSheet,
     Pressable,
     Dimensions,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
+    StatusBar,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import BackButton from '../components/BackButton';
+import FormField from '../components/FormField';
 import colors from '../contants/colors';
 import { useNavigation } from '@react-navigation/native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default function CreatePOStep1Screen() {
     const navigation = useNavigation();
 
-    const [vendorName, setVendorName] = useState('');
-    const [orderDate, setOrderDate] = useState('');
-    const [reference, setReference] = useState('');
-    const [contactName, setContactName] = useState('');
-    const [contactEmail, setContactEmail] = useState('');
-    const [deliveryDate, setDeliveryDate] = useState('');
-    const [deliveryAddress, setDeliveryAddress] = useState('');
-    const [notes, setNotes] = useState('');
+    const [orderVendorAccountNumber, setOrderVendorAccountNumber] = useState('');
+    const [invoiceVendorAccountNumber, setInvoiceVendorAccountNumber] = useState('');
+    const [deliveryModeId, setDeliveryModeId] = useState('');
+    const [purchaseOrderName, setPurchaseOrderName] = useState('');
+    const [requestedDeliveryDate, setRequestedDeliveryDate] = useState('');
+    const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
+    const [deliveryAddressCountyId, setDeliveryAddressCountyId] = useState('');
+    const [deliveryAddressZipCode, setDeliveryAddressZipCode] = useState('');
+    const [deliveryAddressLocationId, setDeliveryAddressLocationId] = useState('');
+    const [deliveryTermsId, setDeliveryTermsId] = useState('');
+    const [currencyCode, setCurrencyCode] = useState('');
+    const [invoiceType, setInvoiceType] = useState('');
+    const [deliveryAddressStreet, setDeliveryAddressStreet] = useState('');
+    const [vendorPaymentMethodName, setVendorPaymentMethodName] = useState('');
+    const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
+    const [paymentTermsName, setPaymentTermsName] = useState('');
+    const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
 
-    const [showOrderDatePicker, setShowOrderDatePicker] = useState(false);
-    const [showDeliveryDatePicker, setShowDeliveryDatePicker] = useState(false);
+    const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
 
     const handleNext = () => {
-        navigation.navigate('PO1', {
-            vendorName,
-            orderDate,
-            reference,
-            contactName,
-            contactEmail,
-            deliveryDate,
-            deliveryAddress,
-            notes,
+        navigation.navigate('PO2', {
+            orderVendorAccountNumber,
+            invoiceVendorAccountNumber,
+            deliveryModeId,
+            purchaseOrderName,
+            requestedDeliveryDate,
+            deliveryAddressCountyId,
+            deliveryAddressZipCode,
+            deliveryAddressLocationId,
+            deliveryTermsId,
+            currencyCode,
+            invoiceType,
+            deliveryAddressStreet,
+            vendorPaymentMethodName,
+            defaultReceivingSiteId,
+            paymentTermsName,
+            formattedDeliveryAddress,
         });
     };
 
+    const isFormValid = () => {
+        return orderVendorAccountNumber.trim() && 
+               purchaseOrderName.trim() && 
+               requestedDeliveryDate;
+    };
+
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
-            <ScrollView contentContainerStyle={styles.inner}>
-                <BackButton />
+        <View style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor={colors.primary} />
+            
+            <KeyboardAvoidingView
+                style={styles.keyboardView}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+            >
+                <ScrollView 
+                    style={styles.scrollView}
+                    contentContainerStyle={styles.scrollContent}
+                    showsVerticalScrollIndicator={false}
+                    bounces={false}
+                >
 
-                <Text style={styles.heading}>Create Purchase Order - Step 1</Text>
-
-                <TextInput
-                    style={styles.input}
-                    placeholder="Vendor Name"
-                    value={vendorName}
-                    onChangeText={setVendorName}
-                    placeholderTextColor="#888"
-                />
-
-                {/* Order Date */}
-                <Pressable onPress={() => setShowOrderDatePicker(true)}>
-                    <View style={styles.dateInput}>
-                        <Text style={{ color: orderDate ? colors.text : '#888' }}>
-                            {orderDate ? moment(orderDate).format('YYYY-MM-DD') : 'Select Order Date'}
-                        </Text>
+                    <View style={styles.header}>
+                        <BackButton />
+                        <View style={styles.headerTextContainer}>
+                            <Text style={styles.heading}>Create Purchase Order</Text>
+                            <Text style={styles.subheading}>Step 1 of 2</Text>
+                        </View>
                     </View>
-                </Pressable>
-                {showOrderDatePicker && (
-                    <DateTimePicker
-                        value={orderDate ? new Date(orderDate) : new Date()}
-                        mode="date"
-                        display="default"
-                        onChange={(event, selectedDate) => {
-                            setShowOrderDatePicker(false);
-                            if (selectedDate) {
-                                setOrderDate(moment(selectedDate).format('YYYY-MM-DD'));
-                            }
-                        }}
-                    />
-                )}
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Reference Number"
-                    value={reference}
-                    onChangeText={setReference}
-                    placeholderTextColor="#888"
-                />
+                    <View style={styles.formContainer}>
+ 
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Vendor Information</Text>
+                            <FormField
+                                label="Order Vendor Account Number"
+                                value={orderVendorAccountNumber}
+                                onChangeText={setOrderVendorAccountNumber}
+                                placeholder="e.g. US-102"
+                                required
+                            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Contact Name"
-                    value={contactName}
-                    onChangeText={setContactName}
-                    placeholderTextColor="#888"
-                />
+                            <FormField
+                                label="Invoice Vendor Account Number"
+                                value={invoiceVendorAccountNumber}
+                                onChangeText={setInvoiceVendorAccountNumber}
+                                placeholder="e.g. US-102"
+                            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Contact Email"
-                    value={contactEmail}
-                    onChangeText={setContactEmail}
-                    placeholderTextColor="#888"
-                    keyboardType="email-address"
-                />
+                            <FormField
+                                label="Payment Method"
+                                value={vendorPaymentMethodName}
+                                onChangeText={setVendorPaymentMethodName}
+                                placeholder="e.g. CHECK"
+                            />
 
-                {/* Delivery Date */}
-                <Pressable onPress={() => setShowDeliveryDatePicker(true)}>
-                    <View style={styles.dateInput}>
-                        <Text style={{ color: deliveryDate ? colors.text : '#888' }}>
-                            {deliveryDate ? moment(deliveryDate).format('YYYY-MM-DD') : 'Select Delivery Date'}
-                        </Text>
+                            <FormField
+                                label="Payment Terms"
+                                value={paymentTermsName}
+                                onChangeText={setPaymentTermsName}
+                                placeholder="e.g. Net30"
+                            />
+                        </View>
+
+                        {/* Order Details Section */}
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Order Details</Text>
+                            <FormField
+                                label="Purchase Order Name"
+                                value={purchaseOrderName}
+                                onChangeText={setPurchaseOrderName}
+                                placeholder="e.g. Tailspin Parts"
+                                required
+                            />
+
+                            <View style={styles.fieldContainer}>
+                                <Text style={styles.fieldLabel}>
+                                    Requested Delivery Date <Text style={styles.required}>*</Text>
+                                </Text>
+                                <Pressable 
+                                    style={styles.dateInput} 
+                                    onPress={() => setShowRequestedDeliveryDatePicker(true)}
+                                >
+                                    <Text style={[
+                                        styles.dateText, 
+                                        !requestedDeliveryDate && styles.placeholderText
+                                    ]}>
+                                        {requestedDeliveryDate
+                                            ? moment(requestedDeliveryDate).format('MMM DD, YYYY')
+                                            : 'Select delivery date'}
+                                    </Text>
+                                    <Text style={styles.dateIcon}>📅</Text>
+                                </Pressable>
+                            </View>
+
+                            {showRequestedDeliveryDatePicker && (
+                                <DateTimePicker
+                                    value={requestedDeliveryDate ? new Date(requestedDeliveryDate) : new Date()}
+                                    mode="date"
+                                    display={Platform.OS === 'ios' ? 'compact' : 'calendar'}
+                                    minimumDate={new Date()}
+                                    onChange={(event, selectedDate) => {
+                                        setShowRequestedDeliveryDatePicker(false);
+                                        if (selectedDate) {
+                                            setRequestedDeliveryDate(moment(selectedDate).format('YYYY-MM-DD'));
+                                        }
+                                    }}
+                                />
+                            )}
+
+                            <FormField
+                                label="Delivery Mode ID"
+                                value={deliveryModeId}
+                                onChangeText={setDeliveryModeId}
+                                placeholder="e.g. 10"
+                            />
+
+                            <FormField
+                                label="Delivery Terms ID"
+                                value={deliveryTermsId}
+                                onChangeText={setDeliveryTermsId}
+                                placeholder="e.g. FOB / CL"
+                            />
+
+                            <FormField
+                                label="Currency Code"
+                                value={currencyCode}
+                                onChangeText={setCurrencyCode}
+                                placeholder="e.g. USD"
+                            />
+
+                            <FormField
+                                label="Invoice Type"
+                                value={invoiceType}
+                                onChangeText={setInvoiceType}
+                                placeholder="e.g. Invoice"
+                            />
+                        </View>
                     </View>
-                </Pressable>
-                {showDeliveryDatePicker && (
-                    <DateTimePicker
-                        value={deliveryDate ? new Date(deliveryDate) : new Date()}
-                        mode="date"
-                        display="default"
-                        onChange={(event, selectedDate) => {
-                            setShowDeliveryDatePicker(false);
-                            if (selectedDate) {
-                                setDeliveryDate(moment(selectedDate).format('YYYY-MM-DD'));
-                            }
-                        }}
-                    />
-                )}
+                </ScrollView>
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Delivery Address"
-                    value={deliveryAddress}
-                    onChangeText={setDeliveryAddress}
-                    placeholderTextColor="#888"
-                />
-
-                <TextInput
-                    style={[styles.input, { height: 100 }]}
-                    placeholder="Additional Notes"
-                    value={notes}
-                    onChangeText={setNotes}
-                    multiline
-                    placeholderTextColor="#888"
-                />
-
-                <Pressable style={styles.nextButton} onPress={handleNext}>
-                    <Text style={styles.nextButtonText}>Next</Text>
-                </Pressable>
-            </ScrollView>
-        </KeyboardAvoidingView>
+                <View style={styles.bottomContainer}>
+                    <Pressable 
+                        style={[
+                            styles.nextButton,
+                            !isFormValid() && styles.nextButtonDisabled
+                        ]} 
+                        onPress={handleNext}
+                        disabled={!isFormValid()}
+                    >
+                        <Text style={[
+                            styles.nextButtonText,
+                            !isFormValid() && styles.nextButtonTextDisabled
+                        ]}>
+                            Continue to Step 2
+                        </Text>
+                    </Pressable>
+                </View>
+            </KeyboardAvoidingView>
+        </View>
     );
 }
 
@@ -163,51 +496,145 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.primary,
     },
-    inner: {
-        paddingTop: 100,
-        paddingHorizontal: 24,
-        paddingBottom: 40,
+    keyboardView: {
+        flex: 1,
+    },
+    scrollView: {
+        flex: 1,
+    },
+    scrollContent: {
+        paddingBottom: 100,
+    },
+    header: {
+        paddingTop: Platform.OS === 'ios' ? 80 : 50,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        backgroundColor: colors.primary,
+    },
+    headerTextContainer: {
+        marginTop: 20,
     },
     heading: {
-        fontSize: 22,
+        fontSize: 28,
         fontFamily: 'Poppins_600SemiBold',
-        marginBottom: 30,
         color: colors.text,
+        marginBottom: 4,
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 12,
-        padding: 14,
-        marginBottom: 20,
-        backgroundColor: '#fff',
-        color: colors.text,
+    subheading: {
         fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+        color: colors.text,
+        opacity: 0.7,
+    },
+    formContainer: {
+        backgroundColor: '#f8f9fa',
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        paddingTop: 24,
+        paddingHorizontal: 20,
+        minHeight: height * 0.7,
+        marginTop: 10,
+    },
+    section: {
+        marginBottom: 32,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontFamily: 'Poppins_600SemiBold',
+        color: '#1a1a1a',
+        marginBottom: 16,
+        paddingLeft: 4,
+    },
+    fieldContainer: {
+        marginBottom: 20,
+    },
+    fieldLabel: {
+        fontSize: 14,
+        fontFamily: 'Poppins_500Medium',
+        color: '#374151',
+        marginBottom: 8,
+        paddingLeft: 4,
+    },
+    required: {
+        color: '#ef4444',
     },
     dateInput: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 12,
-        padding: 14,
-        marginBottom: 20,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1.5,
+        borderColor: '#e5e7eb',
+        borderRadius: 16,
+        padding: 16,
+        backgroundColor: '#ffffff',
+        minHeight: 56,
         shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
+        shadowOpacity: 0.04,
+        shadowRadius: 8,
         shadowOffset: { width: 0, height: 2 },
+        elevation: 2,
+    },
+    dateText: {
+        fontSize: 16,
+        fontFamily: 'Poppins_400Regular',
+        color: '#1f2937',
+    },
+    placeholderText: {
+        color: '#9ca3af',
+    },
+    dateIcon: {
+        fontSize: 20,
+        opacity: 0.6,
+    },
+    row: {
+        flexDirection: 'row',
+        gap: 12,
+    },
+    halfField: {
+        flex: 1,
+    },
+    bottomContainer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#ffffff',
+        paddingHorizontal: 20,
+        paddingTop: 16,
+        paddingBottom: Platform.OS === 'ios' ? 34 : 20,
+        borderTopWidth: 1,
+        borderTopColor: '#f3f4f6',
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: -2 },
+        elevation: 10,
     },
     nextButton: {
-        marginTop: 10,
-        backgroundColor: '#2d00a9',
-        paddingVertical: 16,
-        borderRadius: 12,
+        backgroundColor: '#2563eb',
+        paddingVertical: 18,
+        borderRadius: 16,
         alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 56,
+        shadowColor: '#2563eb',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 8,
+    },
+    nextButtonDisabled: {
+        backgroundColor: '#d1d5db',
+        shadowOpacity: 0,
+        elevation: 0,
     },
     nextButtonText: {
-        color: '#fff',
-        fontSize: 16,
+        color: '#ffffff',
+        fontSize: 17,
         fontFamily: 'Poppins_600SemiBold',
+        letterSpacing: 0.5,
+    },
+    nextButtonTextDisabled: {
+        color: '#9ca3af',
     },
 });
