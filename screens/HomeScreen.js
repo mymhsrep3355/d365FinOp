@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window');
 export default function HomeScreen({setSelectedTab, navigation}) {
   const actions = [
     { label: 'Create PO', icon: require('../assets/purchase-order.png'), screen: 'PO1' },
-    { label: 'View POs', icon: require('../assets/check-list.png'), screen: 'PO1'  },
+    { label: 'View POs', icon: require('../assets/check-list.png'), screen: 'ViewPO'  },
     { label: 'Create SO', icon: require('../assets/stock-rotation.png') , screen: 'PO1'  },
     { label: 'View SOs', icon: require('../assets/check-list.png') , screen: 'PO1' },
     { label: 'Inventory', icon: require('../assets/inventory.png'), screen: 'PO1'  },

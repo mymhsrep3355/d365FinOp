@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "d365FinOp",
-    "slug": "d365FinOp",
+    "name": "D365FinOp",
+    "slug": "D365FinOp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/d365.png",

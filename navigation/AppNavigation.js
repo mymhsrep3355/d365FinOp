@@ -6,6 +6,7 @@ import CustomTabNavigator from './CustomTabNavigator';
 import CreatePOStep1Screen from '../screens/CreatePOStep1Screen';
 import CreatePOStep2Screen from '../screens/CreatePOStep2Screen';
 import POSuccessScreen from '../screens/POSuccessScreen';
+import ViewPurchaseOrders from '../screens/ViewPurchaseOrders';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ export default function AppNavigator() {
       <Stack.Screen name='PO1' component={CreatePOStep1Screen} />
       <Stack.Screen name='PO2' component={CreatePOStep2Screen} />
       <Stack.Screen name='POSuccess' component={POSuccessScreen} />
+      <Stack.Screen name='ViewPO' component={ViewPurchaseOrders} />
     </Stack.Navigator>
   );
 }

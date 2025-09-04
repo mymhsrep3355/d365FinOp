@@ -55,7 +55,7 @@ export default function CreatePOStep2Screen() {
 
         console.log('Complete Purchase Order Data:', completeData);
         try {
-            const res =  await axios.post(`http://172.20.6.30:5000/api/po/create`, completeData);
+            const res =  await axios.post(`${process.env.BASE_URL}/api/po/create`, completeData);
             if(res.status === 200){
                 resetPurchase();
                 navigation.navigate('POSuccess');
