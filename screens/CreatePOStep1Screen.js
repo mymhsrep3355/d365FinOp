@@ -1,268 +1,3 @@
-// import React, { useState } from 'react';
-// import {
-//     View,
-//     Text,
-//     StyleSheet,
-//     Pressable,
-//     Dimensions,
-//     KeyboardAvoidingView,
-//     Platform,
-//     ScrollView,
-// } from 'react-native';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-// import moment from 'moment';
-// import BackButton from '../components/BackButton';
-// import FormField from '../components/FormField';
-// import colors from '../contants/colors';
-// import { useNavigation } from '@react-navigation/native';
-
-// const { width } = Dimensions.get('window');
-
-// export default function CreatePOStep1Screen() {
-//     const navigation = useNavigation();
-
-//     const [orderVendorAccountNumber, setOrderVendorAccountNumber] = useState('');
-//     const [invoiceVendorAccountNumber, setInvoiceVendorAccountNumber] = useState('');
-//     const [deliveryModeId, setDeliveryModeId] = useState('');
-//     const [purchaseOrderName, setPurchaseOrderName] = useState('');
-//     const [requestedDeliveryDate, setRequestedDeliveryDate] = useState('');
-//     const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
-//     const [deliveryAddressCountyId, setDeliveryAddressCountyId] = useState('');
-//     const [deliveryAddressZipCode, setDeliveryAddressZipCode] = useState('');
-//     const [deliveryAddressLocationId, setDeliveryAddressLocationId] = useState('');
-//     const [deliveryTermsId, setDeliveryTermsId] = useState('');
-//     const [currencyCode, setCurrencyCode] = useState('');
-//     const [invoiceType, setInvoiceType] = useState('');
-//     const [deliveryAddressStreet, setDeliveryAddressStreet] = useState('');
-//     const [vendorPaymentMethodName, setVendorPaymentMethodName] = useState('');
-//     const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
-//     const [paymentTermsName, setPaymentTermsName] = useState('');
-//     const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
-
-//     const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
-
-//     const handleNext = () => {
-//         navigation.navigate('PO1', {
-//             orderVendorAccountNumber,
-//             invoiceVendorAccountNumber,
-//             deliveryModeId,
-//             purchaseOrderName,
-//             requestedDeliveryDate,
-//             deliveryAddressCity,
-//             deliveryAddressCountyId,
-//             deliveryAddressZipCode,
-//             deliveryAddressLocationId,
-//             deliveryTermsId,
-//             currencyCode,
-//             invoiceType,
-//             deliveryAddressStreet,
-//             vendorPaymentMethodName,
-//             defaultReceivingSiteId,
-//             paymentTermsName,
-//             formattedDeliveryAddress,
-//         });
-//     };
-
-//     return (
-//         <KeyboardAvoidingView
-//             style={styles.container}
-//             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-//         >
-//             <ScrollView contentContainerStyle={styles.inner}>
-//                 <BackButton />
-
-//                 <Text style={styles.heading}>Create Purchase Order</Text>
-
-//                 <FormField
-//                     label="Order Vendor Account Number"
-//                     value={orderVendorAccountNumber}
-//                     onChangeText={setOrderVendorAccountNumber}
-//                     placeholder="e.g. US-102"
-//                 />
-
-//                 <FormField
-//                     label="Invoice Vendor Account Number"
-//                     value={invoiceVendorAccountNumber}
-//                     onChangeText={setInvoiceVendorAccountNumber}
-//                     placeholder="e.g. US-102"
-//                 />
-
-//                 <FormField
-//                     label="Delivery Mode ID"
-//                     value={deliveryModeId}
-//                     onChangeText={setDeliveryModeId}
-//                     placeholder="e.g. 10"
-//                 />
-
-//                 <FormField
-//                     label="Purchase Order Name"
-//                     value={purchaseOrderName}
-//                     onChangeText={setPurchaseOrderName}
-//                     placeholder="e.g. Tailspin Parts"
-//                 />
-
-//                 <Pressable onPress={() => setShowRequestedDeliveryDatePicker(true)}>
-//                     <View style={styles.dateInput}>
-//                         <Text style={{ color: requestedDeliveryDate ? colors.text : '#888' }}>
-//                             {requestedDeliveryDate
-//                                 ? moment(requestedDeliveryDate).format('YYYY-MM-DD')
-//                                 : 'Select Requested Delivery Date'}
-//                         </Text>
-//                     </View>
-//                 </Pressable>
-//                 {showRequestedDeliveryDatePicker && (
-//                     <DateTimePicker
-//                         value={requestedDeliveryDate ? new Date(requestedDeliveryDate) : new Date()}
-//                         mode="date"
-//                         display={Platform.OS === 'ios' ? 'inline' : 'calendar'}
-//                         onChange={(event, selectedDate) => {
-//                             setShowRequestedDeliveryDatePicker(false);
-//                             if (selectedDate) {
-//                                 setRequestedDeliveryDate(moment(selectedDate).format('YYYY-MM-DD'));
-//                             }
-//                         }}
-//                     />
-//                 )}
-
-//                 <FormField
-//                     label="Delivery Address City"
-//                     value={deliveryAddressCity}
-//                     onChangeText={setDeliveryAddressCity}
-//                     placeholder="e.g. Galvin"
-//                 />
-
-//                 <FormField
-//                     label="County ID"
-//                     value={deliveryAddressCountyId}
-//                     onChangeText={setDeliveryAddressCountyId}
-//                     placeholder="e.g. ASOTIN"
-//                 />
-
-//                 <FormField
-//                     label="Zip Code"
-//                     value={deliveryAddressZipCode}
-//                     onChangeText={setDeliveryAddressZipCode}
-//                     placeholder="e.g. 98544"
-//                 />
-
-//                 <FormField
-//                     label="Location ID"
-//                     value={deliveryAddressLocationId}
-//                     onChangeText={setDeliveryAddressLocationId}
-//                     placeholder="e.g. 000001098"
-//                 />
-
-//                 <FormField
-//                     label="Delivery Terms ID"
-//                     value={deliveryTermsId}
-//                     onChangeText={setDeliveryTermsId}
-//                     placeholder="e.g. FOB / CL"
-//                 />
-
-//                 <FormField
-//                     label="Currency Code"
-//                     value={currencyCode}
-//                     onChangeText={setCurrencyCode}
-//                     placeholder="e.g. USD"
-//                 />
-
-//                 <FormField
-//                     label="Invoice Type"
-//                     value={invoiceType}
-//                     onChangeText={setInvoiceType}
-//                     placeholder="e.g. Invoice"
-//                 />
-
-//                 <FormField
-//                     label="Delivery Street"
-//                     value={deliveryAddressStreet}
-//                     onChangeText={setDeliveryAddressStreet}
-//                     placeholder="e.g. 213 South Street, Gate 1"
-//                 />
-
-//                 <FormField
-//                     label="Payment Method"
-//                     value={vendorPaymentMethodName}
-//                     onChangeText={setVendorPaymentMethodName}
-//                     placeholder="e.g. CHECK"
-//                 />
-
-//                 <FormField
-//                     label="Receiving Site ID"
-//                     value={defaultReceivingSiteId}
-//                     onChangeText={setDefaultReceivingSiteId}
-//                     placeholder="e.g. 1"
-//                 />
-
-//                 <FormField
-//                     label="Payment Terms"
-//                     value={paymentTermsName}
-//                     onChangeText={setPaymentTermsName}
-//                     placeholder="e.g. Net30"
-//                 />
-
-//                 <FormField
-//                     label="Formatted Delivery Address"
-//                     value={formattedDeliveryAddress}
-//                     onChangeText={setFormattedDeliveryAddress}
-//                     placeholder="Formatted delivery address"
-//                     multiline
-//                 />
-
-//                 <Pressable style={styles.nextButton} onPress={handleNext}>
-//                     <Text style={styles.nextButtonText}>Next</Text>
-//                 </Pressable>
-//             </ScrollView>
-//         </KeyboardAvoidingView>
-//     );
-// }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: colors.primary,
-//     },
-//     inner: {
-//         paddingTop: 100,
-//         paddingHorizontal: 24,
-//         paddingBottom: 40,
-//     },
-//     heading: {
-//         fontSize: 22,
-//         fontFamily: 'Poppins_600SemiBold',
-//         marginBottom: 30,
-//         color: colors.text,
-//     },
-//     dateInput: {
-//         borderWidth: 1,
-//         borderColor: '#ccc',
-//         borderRadius: 12,
-//         padding: 14,
-//         marginBottom: 20,
-//         backgroundColor: '#fff',
-//         justifyContent: 'center',
-//         height: 50,
-//         shadowColor: '#000',
-//         shadowOpacity: 0.05,
-//         shadowRadius: 4,
-//         shadowOffset: { width: 0, height: 2 },
-//     },
-//     nextButton: {
-//         marginTop: 10,
-//         backgroundColor: '#2d00a9',
-//         paddingVertical: 16,
-//         borderRadius: 12,
-//         alignItems: 'center',
-//     },
-//     nextButtonText: {
-//         color: '#fff',
-//         fontSize: 16,
-//         fontFamily: 'Poppins_600SemiBold',
-//     },
-// });
-
-
-
 import React, { useState } from 'react';
 import {
     View,
@@ -292,18 +27,12 @@ export default function CreatePOStep1Screen() {
     const [deliveryModeId, setDeliveryModeId] = useState('');
     const [purchaseOrderName, setPurchaseOrderName] = useState('');
     const [requestedDeliveryDate, setRequestedDeliveryDate] = useState('');
-    const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
-    const [deliveryAddressCountyId, setDeliveryAddressCountyId] = useState('');
-    const [deliveryAddressZipCode, setDeliveryAddressZipCode] = useState('');
-    const [deliveryAddressLocationId, setDeliveryAddressLocationId] = useState('');
     const [deliveryTermsId, setDeliveryTermsId] = useState('');
     const [currencyCode, setCurrencyCode] = useState('');
     const [invoiceType, setInvoiceType] = useState('');
-    const [deliveryAddressStreet, setDeliveryAddressStreet] = useState('');
     const [vendorPaymentMethodName, setVendorPaymentMethodName] = useState('');
-    const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
     const [paymentTermsName, setPaymentTermsName] = useState('');
-    const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
+
 
     const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
 
@@ -314,9 +43,6 @@ export default function CreatePOStep1Screen() {
             deliveryModeId,
             purchaseOrderName,
             requestedDeliveryDate,
-            deliveryAddressCountyId,
-            deliveryAddressZipCode,
-            deliveryAddressLocationId,
             deliveryTermsId,
             currencyCode,
             invoiceType,
@@ -324,7 +50,6 @@ export default function CreatePOStep1Screen() {
             vendorPaymentMethodName,
             defaultReceivingSiteId,
             paymentTermsName,
-            formattedDeliveryAddress,
         });
     };
 
@@ -391,8 +116,7 @@ export default function CreatePOStep1Screen() {
                                 placeholder="e.g. Net30"
                             />
                         </View>
-
-                        {/* Order Details Section */}
+                        
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Order Details</Text>
                             <FormField

@@ -10,8 +10,6 @@ import {
     ScrollView,
     StatusBar,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import moment from 'moment';
 import BackButton from '../components/BackButton';
 import FormField from '../components/FormField';
 import colors from '../contants/colors';
@@ -22,44 +20,24 @@ const { width, height } = Dimensions.get('window');
 export default function CreatePOStep2Screen() {
     const navigation = useNavigation();
 
-    const [orderVendorAccountNumber, setOrderVendorAccountNumber] = useState('');
-    const [invoiceVendorAccountNumber, setInvoiceVendorAccountNumber] = useState('');
-    const [deliveryModeId, setDeliveryModeId] = useState('');
-    const [purchaseOrderName, setPurchaseOrderName] = useState('');
-    const [requestedDeliveryDate, setRequestedDeliveryDate] = useState('');
     const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
-    const [deliveryAddressCountyId, setDeliveryAddressCountyId] = useState('');
-    const [deliveryAddressZipCode, setDeliveryAddressZipCode] = useState('');
+    const [deliveryAddressCountyId, setDeliveryAddressCountyId]  = useState('');
+    const [deliveryAddressZipCode, setDeliveryAddressZipCode] =   useState(''); 
     const [deliveryAddressLocationId, setDeliveryAddressLocationId] = useState('');
-    const [deliveryTermsId, setDeliveryTermsId] = useState('');
-    const [currencyCode, setCurrencyCode] = useState('');
-    const [invoiceType, setInvoiceType] = useState('');
     const [deliveryAddressStreet, setDeliveryAddressStreet] = useState('');
-    const [vendorPaymentMethodName, setVendorPaymentMethodName] = useState('');
+
     const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
-    const [paymentTermsName, setPaymentTermsName] = useState('');
     const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
 
-    const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
 
     const handleNext = () => {
         navigation.navigate('POSuccess', {
-            orderVendorAccountNumber,
-            invoiceVendorAccountNumber,
-            deliveryModeId,
-            purchaseOrderName,
-            requestedDeliveryDate,
             deliveryAddressCity,
             deliveryAddressCountyId,
             deliveryAddressZipCode,
             deliveryAddressLocationId,
-            deliveryTermsId,
-            currencyCode,
-            invoiceType,
             deliveryAddressStreet,
-            vendorPaymentMethodName,
             defaultReceivingSiteId,
-            paymentTermsName,
             formattedDeliveryAddress,
         });
     };

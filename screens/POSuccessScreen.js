@@ -13,7 +13,6 @@ export default function POSuccessScreen() {
       <BackButton />
       <SuccessMessageCard
         title="Purchase Order Created"
-        //message="Your PO has been successfully posted."
         buttonText="Back to Home"
         onButtonPress={() => navigation.navigate('HomeTabs')}
       />
