@@ -14,12 +14,14 @@ import BackButton from '../components/BackButton';
 import FormField from '../components/FormField';
 import colors from '../contants/colors';
 import { useNavigation } from '@react-navigation/native';
+import { usePurchase } from '../context/PurchaseContext';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
 export default function CreatePOStep2Screen() {
     const navigation = useNavigation();
-
+    const { purchaseData, updateStep2, resetPurchase } = usePurchase();
     const [deliveryAddressCity, setDeliveryAddressCity] = useState('');
     const [deliveryAddressCountyId, setDeliveryAddressCountyId]  = useState('');
     const [deliveryAddressZipCode, setDeliveryAddressZipCode] =   useState(''); 
@@ -29,9 +31,8 @@ export default function CreatePOStep2Screen() {
     const [defaultReceivingSiteId, setDefaultReceivingSiteId] = useState('');
     const [formattedDeliveryAddress, setFormattedDeliveryAddress] = useState('');
 
-
-    const handleNext = () => {
-        navigation.navigate('POSuccess', {
+    const handleNext = async () => {
+        updateStep2({
             deliveryAddressCity,
             deliveryAddressCountyId,
             deliveryAddressZipCode,
@@ -40,6 +41,30 @@ export default function CreatePOStep2Screen() {
             defaultReceivingSiteId,
             formattedDeliveryAddress,
         });
+
+        const completeData = {
+            ...purchaseData.step1,
+            deliveryAddressCity,
+            deliveryAddressCountyId,
+            deliveryAddressZipCode,
+            deliveryAddressLocationId,
+            deliveryAddressStreet,
+            defaultReceivingSiteId,
+            formattedDeliveryAddress,
+        };
+
+        console.log('Complete Purchase Order Data:', completeData);
+        try {
+            const res =  await axios.post(`http://172.20.6.30:5000/api/po/create`, completeData);
+            if(res.status === 200){
+                resetPurchase();
+                navigation.navigate('POSuccess');
+            }
+            console.log('PO submission response:', res.data);
+        } catch (error) {
+            console.log('Error submitting PO:', error);
+        }
+       
     };
 
     const isFormValid = () => {

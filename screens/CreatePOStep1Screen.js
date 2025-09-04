@@ -16,11 +16,13 @@ import BackButton from '../components/BackButton';
 import FormField from '../components/FormField';
 import colors from '../contants/colors';
 import { useNavigation } from '@react-navigation/native';
+import { usePurchase } from '../context/PurchaseContext';
 
 const { width, height } = Dimensions.get('window');
 
 export default function CreatePOStep1Screen() {
     const navigation = useNavigation();
+    const { setPurchaseData, updateStep1 } = usePurchase();
 
     const [orderVendorAccountNumber, setOrderVendorAccountNumber] = useState('');
     const [invoiceVendorAccountNumber, setInvoiceVendorAccountNumber] = useState('');
@@ -36,8 +38,9 @@ export default function CreatePOStep1Screen() {
 
     const [showRequestedDeliveryDatePicker, setShowRequestedDeliveryDatePicker] = useState(false);
 
+
     const handleNext = () => {
-        navigation.navigate('PO2', {
+        updateStep1({
             orderVendorAccountNumber,
             invoiceVendorAccountNumber,
             deliveryModeId,
@@ -46,17 +49,17 @@ export default function CreatePOStep1Screen() {
             deliveryTermsId,
             currencyCode,
             invoiceType,
-            deliveryAddressStreet,
             vendorPaymentMethodName,
-            defaultReceivingSiteId,
             paymentTermsName,
         });
+        navigation.navigate('PO2');
     };
+
 
     const isFormValid = () => {
         return orderVendorAccountNumber.trim() && 
-               purchaseOrderName.trim() && 
-               requestedDeliveryDate;
+               purchaseOrderName.trim()
+               //requestedDeliveryDate;
     };
 
     return (
@@ -116,7 +119,7 @@ export default function CreatePOStep1Screen() {
                                 placeholder="e.g. Net30"
                             />
                         </View>
-                        
+
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>Order Details</Text>
                             <FormField
