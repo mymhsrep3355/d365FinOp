@@ -55,10 +55,17 @@ export default function CreatePOStep2Screen() {
 
         console.log('Complete Purchase Order Data:', completeData);
         try {
-            const res =  await axios.post(`${process.env.BASE_URL}/api/po/create`, completeData);
+            const URL = process.env.EXPO_BASE_URL || process.env.EXPO_PUBLIC_BASE_URL;
+            console.log('Using BASE_URL:', URL);
+            
+            // const res =  await axios.post(`${process.env.BASE_URL}/api/po/create`, completeData);
+            const res =  await axios.post(`https://19fa52fbfc30.ngrok-free.app/api/po/create`, completeData);
+
             if(res.status === 200){
                 resetPurchase();
-                navigation.navigate('POSuccess');
+                const poNumber = res.data.poNumber;
+                console.log('PO Number:', poNumber);
+                navigation.navigate('POSuccess', { poNumber });
             }
             console.log('PO submission response:', res.data);
         } catch (error) {

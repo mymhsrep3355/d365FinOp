@@ -1,71 +1,164 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
+  TextInput,
+  FlatList,
+  ActivityIndicator,
   StyleSheet,
-  ScrollView,
-  Image,
-  Dimensions,
+  SafeAreaView,
+  TouchableOpacity,
+  Keyboard,
 } from 'react-native';
-import colors from '../contants/colors';
+
+import PurchaseOrderCard from '../components/PurchaseOrderCard';
 import BackButton from '../components/BackButton';
+import colors from '../contants/colors';
+import { useGetPurchaseOrder } from '../context/GetPurchaseOrderContext';
+import { Ionicons } from '@expo/vector-icons';
 
+export default function ViewPurchaseOrders() {
+  const {
+    allPurchaseOrders,
+    loading,
+    filteredPurchaseOrders,
+    fetchPurchaseOrders,
+    filterByPONumber,
+  } = useGetPurchaseOrder();
 
+  const [search, setSearch] = useState('');
 
-const { width } = Dimensions.get('window');
+  useEffect(() => {
+    if (search.trim() === '') {
+      filterByPONumber('');
+    }
+  }, [search]);
 
-export default function ViewPurchaseOrders({setSelectedTab, navigation}) {
+  const handleSearch = () => {
+    Keyboard.dismiss();
+    filterByPONumber(search);
+  };
 
+  const clearSearch = () => {
+    setSearch('');
+    filterByPONumber('');
+  };
+
+  const renderEmpty = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No Purchase Orders found.</Text>
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-        <BackButton/>
-      <View style={styles.header}>
-        <Text style={styles.title}>View Purchase Orders</Text>
+    <SafeAreaView style={styles.container}>
+      <BackButton />
+      <Text style={styles.title}>Purchase Orders</Text>
+
+      <View style={styles.searchContainer}>
+        <View style={styles.searchInputWrapper}>
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search by PO Number"
+            style={styles.input}
+            onSubmitEditing={handleSearch}
+            returnKeyType="search"
+          />
+          {search.length > 0 && (
+            <TouchableOpacity onPress={clearSearch} style={styles.clearIcon}>
+              <Ionicons name="close-circle" size={20} color="#aaa" />
+            </TouchableOpacity>
+          )}
+        </View>
+        <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
+          <Ionicons name="search" size={20} color="#fff" />
+        </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.grid}>
-        <Text style={styles.title}>List of Purchase Orders</Text>
-      </ScrollView>
+      <TouchableOpacity onPress={fetchPurchaseOrders} style={styles.refreshButton}>
+        <Text style={styles.refreshButtonText}>Get Latest Purchase Orders</Text>
+      </TouchableOpacity>
 
-    </View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#2d00a9" style={{ marginTop: 40 }} />
+      ) : (
+        <FlatList
+          data={filteredPurchaseOrders}
+          keyExtractor={(item) => item.PurchaseOrderNumber}
+          renderItem={({ item }) => <PurchaseOrderCard po={item} />}
+          contentContainerStyle={{ padding: 16 }}
+          ListEmptyComponent={renderEmpty}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  refreshButton: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    backgroundColor: '#2d00a9',
+    padding: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  refreshButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'Poppins_600SemiBold',
+  },
   container: {
     flex: 1,
     backgroundColor: colors.primary,
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 50,
-    paddingBottom: 20,
-    backgroundColor: colors.background,
-    elevation: 4,
-  },
-  logo: {
-    width: 60,
-    height: 60,
-    resizeMode: 'contain',
-  },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: 'Poppins_600SemiBold',
     color: colors.text,
-    marginTop: 6,
+    marginHorizontal: 16,
+    marginTop: 55,
+    marginBottom: 10,
   },
-  grid: {
+  searchContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 100,
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginBottom: 12,
   },
-  cardWrapper: {
-    width: (width - 48) / 2,
-    marginBottom: 16,
+  searchInputWrapper: {
+    flex: 1,
+    position: 'relative',
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 14,
+    borderWidth: 1.2,
+    borderColor: '#e5e7eb',
+    paddingRight: 36, 
+  },
+  clearIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
+  searchButton: {
+    marginLeft: 10,
+    backgroundColor: '#2d00a9',
+    padding: 10,
+    borderRadius: 10,
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    marginTop: 60,
+  },
+  emptyText: {
+    color: '#999',
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
   },
 });

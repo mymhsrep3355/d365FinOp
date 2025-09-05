@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './navigation/AppNavigation';
 import { PurchaseProvider } from './context/PurchaseContext';
+import { GetPurchaseOrderProvider } from './context/GetPurchaseOrderContext';
 
 export default function App() {
   return (
@@ -10,8 +11,10 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <PurchaseProvider>
-          <AppNavigator />
-          <StatusBar style="dark" backgroundColor="#F3F2F1" />
+          <GetPurchaseOrderProvider>
+            <AppNavigator />
+            <StatusBar style="dark" backgroundColor="#F3F2F1" />
+          </GetPurchaseOrderProvider>
         </PurchaseProvider>
       </NavigationContainer>
     </SafeAreaProvider>

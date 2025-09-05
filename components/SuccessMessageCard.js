@@ -7,6 +7,7 @@ export default function SuccessMessageCard({
   icon = 'checkmark-circle',
   iconColor = '#4BB543',
   title = 'Success!',
+  subtitle = '',
   message = 'Your action was completed successfully.',
   buttonText = 'Done',
   onButtonPress,
@@ -17,6 +18,7 @@ export default function SuccessMessageCard({
 
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
+      {subtitle ? <Text style={styles.message}>{subtitle}</Text> : null}
 
       {onButtonPress && (
         <Pressable style={styles.button} onPress={onButtonPress}>
