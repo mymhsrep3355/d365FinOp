@@ -9,8 +9,8 @@ export default function SuccessMessageCard({
   title = 'Success!',
   subtitle = '',
   message = 'Your action was completed successfully.',
-  buttonText = 'Done',
-  onButtonPress,
+  //buttonText = 'Done',
+  //onButtonPress,
 }) {
   return (
     <View style={styles.card}>
@@ -20,11 +20,11 @@ export default function SuccessMessageCard({
       <Text style={styles.message}>{message}</Text>
       {subtitle ? <Text style={styles.message}>{subtitle}</Text> : null}
 
-      {onButtonPress && (
+      {/* {onButtonPress && (
         <Pressable style={styles.button} onPress={onButtonPress}>
           <Text style={styles.buttonText}>{buttonText}</Text>
         </Pressable>
-      )}
+      )} */}
     </View>
   );
 }

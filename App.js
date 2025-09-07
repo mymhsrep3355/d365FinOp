@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './navigation/AppNavigation';
 import { PurchaseProvider } from './context/PurchaseContext';
 import { GetPurchaseOrderProvider } from './context/GetPurchaseOrderContext';
+import { ViewPOLinesProvider } from './context/ViewPOLinesContext';
 
 export default function App() {
   return (
@@ -12,8 +13,10 @@ export default function App() {
       <NavigationContainer>
         <PurchaseProvider>
           <GetPurchaseOrderProvider>
-            <AppNavigator />
-            <StatusBar style="dark" backgroundColor="#F3F2F1" />
+            <ViewPOLinesProvider>
+              <AppNavigator />
+              <StatusBar style="dark" backgroundColor="#F3F2F1" />
+            </ViewPOLinesProvider>
           </GetPurchaseOrderProvider>
         </PurchaseProvider>
       </NavigationContainer>

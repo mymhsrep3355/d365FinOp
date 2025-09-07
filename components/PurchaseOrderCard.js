@@ -1,15 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Touchable, TouchableOpacity } from 'react-native';
 
 const PurchaseOrderCard = ({ po }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card}
+      onPress={() => navigation.navigate('PODetails', { po })}
+    >
       <Text style={styles.poNumber}>PO: {po.PurchaseOrderNumber}</Text>
       <Text style={styles.name}>{po.PurchaseOrderName || 'Unnamed Order'}</Text>
       <Text style={styles.detail}>Vendor: {po.OrderVendorAccountNumber}</Text>
       <Text style={styles.status}>Status: {po.PurchaseOrderStatus}</Text>
       <Text style={styles.date}>{po.AccountingDate?.split('T')[0]}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

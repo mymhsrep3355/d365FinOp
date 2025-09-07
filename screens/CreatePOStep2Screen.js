@@ -56,16 +56,17 @@ export default function CreatePOStep2Screen() {
         console.log('Complete Purchase Order Data:', completeData);
         try {
             const URL = process.env.EXPO_BASE_URL || process.env.EXPO_PUBLIC_BASE_URL;
-            console.log('Using BASE_URL:', URL);
+            //console.log('Using BASE_URL:', URL);
             
-            // const res =  await axios.post(`${process.env.BASE_URL}/api/po/create`, completeData);
-            const res =  await axios.post(`https://19fa52fbfc30.ngrok-free.app/api/po/create`, completeData);
+            const res =  await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/api/po/create`, completeData);
+            // const res =  await axios.post(`https://19fa52fbfc30.ngrok-free.app/api/po/create`, completeData);
 
             if(res.status === 200){
                 resetPurchase();
                 const poNumber = res.data.poNumber;
+                const header = res.data;
                 console.log('PO Number:', poNumber);
-                navigation.navigate('POSuccess', { poNumber });
+                navigation.navigate('POSuccess', { poNumber, header });
             }
             console.log('PO submission response:', res.data);
         } catch (error) {
@@ -99,7 +100,7 @@ export default function CreatePOStep2Screen() {
                         <BackButton />
                         <View style={styles.headerTextContainer}>
                             <Text style={styles.heading}>Create Purchase Order</Text>
-                            <Text style={styles.subheading}>Step 1 of 2</Text>
+                            <Text style={styles.subheading}>Step 2 of 2</Text>
                         </View>
                     </View>
 

@@ -7,6 +7,9 @@ import CreatePOStep1Screen from '../screens/CreatePOStep1Screen';
 import CreatePOStep2Screen from '../screens/CreatePOStep2Screen';
 import POSuccessScreen from '../screens/POSuccessScreen';
 import ViewPurchaseOrders from '../screens/ViewPurchaseOrders';
+import CreatePOLineScreen from '../screens/CreatePOLineScreen';
+import PurchaseOrderDetailScreen from '../screens/PurchaseOrderDetailScreen';
+import ViewPOLinesScreen from '../screens/ViewPOLinesScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,7 +24,10 @@ export default function AppNavigator() {
       <Stack.Screen name='PO1' component={CreatePOStep1Screen} />
       <Stack.Screen name='PO2' component={CreatePOStep2Screen} />
       <Stack.Screen name='POSuccess' component={POSuccessScreen} />
+      <Stack.Screen name='CreatePOLine' component={CreatePOLineScreen} />
       <Stack.Screen name='ViewPO' component={ViewPurchaseOrders} />
+      <Stack.Screen name='PODetails' component={PurchaseOrderDetailScreen} />
+      <Stack.Screen name='PurchaseOrderLinesScreen' component={ViewPOLinesScreen} />
     </Stack.Navigator>
   );
 }
